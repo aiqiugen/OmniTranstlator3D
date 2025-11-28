@@ -85,7 +85,22 @@ export const urlToText = async (url: string): Promise<string> => {
         });
         
         // Grounding response handling
-        const text = response.text;
+        let text = response.text || "";
+
+        // Extract grounding chunks (URLs) and append to text as per guidelines
+        const chunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks;
+        if (chunks && chunks.length > 0) {
+            const urls = chunks
+                .map((c: any) => c.web?.uri)
+                .filter((u: string) => u);
+            
+            if (urls.length > 0) {
+                 // Remove duplicates
+                 const uniqueUrls = Array.from(new Set(urls));
+                 text += "\n\nSources:\n" + uniqueUrls.join("\n");
+            }
+        }
+        
         if (!text) {
              throw new Error("No content found.");
         }
