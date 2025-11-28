@@ -1,0 +1,7 @@
+{
+  "name": "OmniTranslator 全能翻译",
+  "description": "A powerful multi-language translation tool supporting text, voice, files, and URLs with 3D UI.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
